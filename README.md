@@ -1,3 +1,2 @@
 # viayengi-obsidian
-# viayengi-obsidian
-# new
+# Nothing to talk...
