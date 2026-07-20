@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Syntax Highlighting CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    
+<div id="adobe-dc-view" style="width: 50vw; height: 90vh;"></div>
+<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+<script type="text/javascript">
+	document.addEventListener("adobe_dc_view_sdk.ready", function(){ 
+		var adobeDCView = new AdobeDC.View({clientId: "5d38ef5e3853473ca6a7d92bc4249ab5", divId: "adobe-dc-view"});
+		adobeDCView.previewFile({
+			content:{location: {url: "https://viayengi-os.github.io/viayengi-obsidian/dfe0194a0000/0f05f2c10000.pdf"}},
+			metaData:{fileName: "document.pdf"}
+		}, {
+            defaultViewMode: "FIT_WIDTH" // This sets the zoom to fit the width!
+        });
+	});
+</script>
+</body>
+</html>
