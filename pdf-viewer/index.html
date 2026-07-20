@@ -6,25 +6,42 @@
 </head>
 <body>
     
+<pre><code id="code-block" class="language-javascript">Loading PDF...</code></pre>
+
 <div id="adobe-dc-view" style="width: 100vw; height: 90vh;"></div>
 <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
 <script type="text/javascript">
+    const params = new URLSearchParams(window.location.search);
+    const codeBlock = document.getElementById('code-block');
+    const URL = params.get('url');
+    const VIEW_MODE = params.get('view_mode') ?? "FIT_WIDTH"
+    const LEFT_PANEL = params.get("hide_left_panel") == 1 ? false : true
+    const ANNOTATION = params.get("hide_anno") == 1 ? false : true
+    const DOWNLOAD = params.get("hide_download") == 1 ? false : true
+    const PRINT = params.get("hide_print") == 1 ? false : true
+    
+
+	if (URL){
 	document.addEventListener("adobe_dc_view_sdk.ready", function(){ 
 		var adobeDCView = new AdobeDC.View({clientId: "5d38ef5e3853473ca6a7d92bc4249ab5", divId: "adobe-dc-view"});
 		adobeDCView.previewFile({
-			content:{location: {url: "https://viayengi-os.github.io/viayengi-obsidian/dfe0194a0000/0f05f2c10000.pdf"}},
+			content:{location: {url: URL}},
 			metaData:{fileName: "document.pdf"}
 		}, {    
     // 2. Set the zoom to fit the width
-    defaultViewMode: "FIT_PAGE",
+    defaultViewMode: VIEW_MODE,
     
     // 3. IMPORTANT: Hide the sidebars to get "Full Screen" feel
-    showLeftHandPanel: false,
-    showAnnotationTools: false,
-    showDownloadPDF: false,
-    showPrintPDF: false
+    showLeftHandPanel: LEFT_PANEL,
+    showAnnotationTools: ANNOTATION,
+    showDownloadPDF: DOWNLOAD,
+    showPrintPDF: PRINT
         });
 	});
+	codeBlock.textContent = ""
+	}else{
+		codeBlock.textContent = "Invalid URL"
+	}
 </script>
 </body>
 </html>
