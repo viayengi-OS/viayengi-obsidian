@@ -39,9 +39,18 @@
         return response.arrayBuffer();
     });
 };
-const getFilePromise = (fileId) => {
+const getFilePromiseOld3 = (fileId) => {
     const directURL = `https://drive.google.com/uc?export=download&id=${fileId}`;
     return fetch(directURL).then(response => response.arrayBuffer());
+};
+const getFilePromise = (fileId) => {
+    // Replace this with your new Cloudflare Worker URL
+    const workerURL = `https://polished-dust-20f6.thanhvang21121999.workers.dev/?id=${fileId}`;
+    
+    return fetch(workerURL).then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch file from Proxy");
+        return response.arrayBuffer();
+    });
 };
 
 	
