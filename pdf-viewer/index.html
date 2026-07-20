@@ -78,28 +78,50 @@ const getFilePromise = (fileId) => {
 	  });
 	  codeBlock.textContent = "";
 	} else if (URL) {
-	  document.addEventListener("adobe_dc_view_sdk.ready", function () {
-	    var adobeDCView = new AdobeDC.View({
-	      clientId: "5d38ef5e3853473ca6a7d92bc4249ab5",
-	      divId: "adobe-dc-view",
-	    });
-	    adobeDCView.previewFile(
-	      {
-	        content: { location: { url: URL } },
-	        metaData: { fileName: "document.pdf" },
-	      },
-	      {
-	        // 2. Set the zoom to fit the width
-	        defaultViewMode: VIEW_MODE,
-	
-	        // 3. IMPORTANT: Hide the sidebars to get "Full Screen" feel
-	        showLeftHandPanel: LEFT_PANEL,
-	        showAnnotationTools: ANNOTATION,
-	        showDownloadPDF: DOWNLOAD,
-	        showPrintPDF: PRINT,
-	      },
-	    );
-	  });
+  document.addEventListener("adobe_dc_view_sdk.ready", async function () {
+    const viewerDiv = document.getElementById("adobe-dc-view");
+
+    try {
+      // 1. Perform a "HEAD" request to check the file without downloading it
+      const response = await fetch(URL, { method: 'HEAD' });
+
+      // 2. Check if the status is 200 AND the content-type is PDF
+      const contentType = response.headers.get('content-type');
+      
+      if (response.ok && contentType && contentType.includes('pdf')) {
+        // IT IS VALID: Proceed with Adobe View
+        var adobeDCView = new AdobeDC.View({
+          clientId: "5d38ef5e3853473ca6a7d92bc4249ab5",
+          divId: "adobe-dc-view",
+        });
+
+        adobeDCView.previewFile(
+          {
+            content: { location: { url: URL } },
+            metaData: { fileName: "document.pdf" },
+          },
+          {
+            defaultViewMode: VIEW_MODE,
+            showLeftHandPanel: LEFT_PANEL,
+            showAnnotationTools: ANNOTATION,
+            showDownloadPDF: DOWNLOAD,
+            showPrintPDF: PRINT,
+          }
+        );
+      } else {
+        // IT IS INVALID (404, or not a PDF)
+        viewerDiv.innerHTML = `<div style="padding: 20px; text-align: center; color: red;">
+                                 <h3>Hey you give me invalid URL - i dont render PDF View</h3>
+                               </div>`;
+      }
+    } catch (error) {
+      // NETWORK ERROR (e.g., CORS issue or invalid domain)
+      viewerDiv.innerHTML = `<div style="padding: 20px; text-align: center; color: red;">
+                               <h3>Hey you give me invalid URL - i dont render PDF View</h3>
+                               <p>(Network error or CORS restriction)</p>
+                             </div>`;
+    }
+  });
 	  codeBlock.textContent = "";
 	} else {
 	  codeBlock.textContent = "Invalid URL";
