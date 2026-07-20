@@ -15,7 +15,16 @@
 			content:{location: {url: "https://viayengi-os.github.io/viayengi-obsidian/dfe0194a0000/0f05f2c10000.pdf"}},
 			metaData:{fileName: "document.pdf"}
 		}, {
-            defaultViewMode: "FIT_WIDTH" // This sets the zoom to fit the width!
+    embedMode: "SIZED_CONTAINER", 
+    
+    // 2. Set the zoom to fit the width
+    defaultViewMode: "FIT_PAGE",
+    
+    // 3. IMPORTANT: Hide the sidebars to get "Full Screen" feel
+    showLeftHandPanel: false,
+    showAnnotationTools: false,
+    showDownloadPDF: false,
+    showPrintPDF: false
         });
 	});
 </script>
