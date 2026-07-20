@@ -61,7 +61,7 @@ const getFilePromise = (fileId) => {
 	    });
 	    adobeDCView.previewFile(
 	      {
-	        content: { promise: getFilePromiseOld2(FILE_ID) },
+	        content: { promise: getFilePromise(FILE_ID) },
 	        metaData: { fileName: "document.pdf" },
 	      },
 	      {
