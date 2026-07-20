@@ -22,13 +22,24 @@
 	const FILE_ID = params.get("id");
 	
 	if (FILE_ID) {
-	  const getFilePromise = (fileId) => {
+	  const getFilePromiseOld = (fileId) => {
 	    const driveURL = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=AIzaSyBJWYfNc4iNg2rbnGzYzaUBY5HZzFtjdho`;
 	    return fetch(driveURL).then((response) => {
 	      if (!response.ok) throw new Error("Failed to fetch file");
 	      return response.arrayBuffer();
 	    });
 	  };
+	  const getFilePromise = (fileId) => {
+    // Point to your Make webhook
+    const webhookURL = `https://hook.eu1.make.com/aa4r2j2p7qa84poatu3xng9dly2qdas5?id=${fileId}`;
+    
+    return fetch(webhookURL).then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch file from Make");
+        // Adobe expects an ArrayBuffer
+        return response.arrayBuffer();
+    });
+};
+
 	
 	  document.addEventListener("adobe_dc_view_sdk.ready", function () {
 	    var adobeDCView = new AdobeDC.View({
