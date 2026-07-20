@@ -29,7 +29,7 @@
 	      return response.arrayBuffer();
 	    });
 	  };
-	  const getFilePromise = (fileId) => {
+	  const getFilePromiseOld2 = (fileId) => {
     // Point to your Make webhook
     const webhookURL = `https://hook.eu1.make.com/aa4r2j2p7qa84poatu3xng9dly2qdas5?id=${fileId}`;
     
@@ -38,6 +38,10 @@
         // Adobe expects an ArrayBuffer
         return response.arrayBuffer();
     });
+};
+const getFilePromise = (fileId) => {
+    const directURL = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    return fetch(directURL).then(response => response.arrayBuffer());
 };
 
 	
