@@ -1,0 +1,53 @@
+<!DOCTYPE html><html><head>    <title>Code Viewer</title>    <!-- Prism.js for Syntax Highlighting -->    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />    <style>        body { background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', monospace; padding: 20px; }        #container { max-width: 90vw; margin: 0 auto; }        pre { border-radius: 8px; padding: 15px; overflow-x: auto; }    </style></head><body><div id="container">    <h1 id="title">Code Viewer</h1>    <pre><code id="code-block" class="language-javascript">Waiting for file ID...</code></pre></div><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script><script>    // 1. YOUR GOOGLE APPS SCRIPT URL (Replace this!)    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHzTc1_igN33hLOEKTXkHdaNDB8YRnumuKqVq-TYtYYo8DDXlryTmkKj9biGiJ986HwA/exec";    // 2.1 Get parameters
+    const params = new URLSearchParams(window.location.search);
+    const fileId = params.get('id');
+    const githubUrl = params.get('url'); // New parameter for GitHub files
+    const ext = params.get('ext') || 'js'; // Default to js
+
+    // 2.2 Create a mapping function
+    function getLanguage(extension) {
+        const map = {
+            'js': 'javascript',
+            'py': 'python',
+            'html': 'html',
+            'css': 'css',
+            'json': 'json',
+            'md': 'markdown',
+            'java': 'java',
+            'cpp': 'cpp'
+        };
+        return map[extension] || 'javascript'; // Fallback to javascript
+    }
+
+    // 2.3 Set the class
+    const codeBlock = document.getElementById('code-block');
+    codeBlock.className = `language-${getLanguage(ext)}`;
+    if (fileId) {
+        // --- FETCH FROM GOOGLE DRIVE ---
+        document.getElementById('title').innerText = "Loading from Drive...";
+        fetch(`${SCRIPT_URL}?id=${fileId}`)
+            .then(response => response.text())
+            .then(data => {
+                codeBlock.textContent = data;
+                Prism.highlightElement(codeBlock);
+            })
+            .catch(err => codeBlock.textContent = "Error: " + err);
+
+    } else if (githubUrl) {
+        // --- FETCH FROM GITHUB (Directly!) ---
+        document.getElementById('title').innerText = "Loading from GitHub...";
+        fetch(githubUrl)
+            .then(response => {
+                if (!response.ok) throw new Error("Could not load file from GitHub");
+                return response.text();
+            })
+            .then(data => {
+                codeBlock.textContent = data;
+                Prism.highlightElement(codeBlock);
+            })
+            .catch(err => codeBlock.textContent = "Error: " + err);
+
+    } else {
+        codeBlock.textContent = "Welcome! Use ?id=DRIVE_ID or ?url=GITHUB_FILE_URL";
+    }
+   </script></body></html>
