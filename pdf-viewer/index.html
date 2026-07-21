@@ -43,7 +43,7 @@ const getFilePromiseOld3 = (fileId) => {
     const directURL = `https://drive.google.com/uc?export=download&id=${fileId}`;
     return fetch(directURL).then(response => response.arrayBuffer());
 };
-const getFilePromise = (fileId) => {
+const getFilePromiseOld4 = (fileId) => {
     // Replace this with your new Cloudflare Worker URL
     const workerURL = `https://polished-dust-20f6.thanhvang21121999.workers.dev/?id=${fileId}`;
     
@@ -52,6 +52,23 @@ const getFilePromise = (fileId) => {
         return response.arrayBuffer();
     });
 };
+const getFilePromise = (fileId) => {
+    // Replace with your Google Apps Script URL
+    const scriptURL = `https://script.google.com/macros/s/AKfycbycO2mrW2VjrcrVwIuVVHvt_cd4lpJwCjCBa0Gb-DmLkYYukVJnXp-CzfHj2r0rg5RzeQ/exec?id=${fileId}`;
+
+    return fetch(scriptURL)
+        .then(response => response.json())
+        .then(json => {
+            // Convert Base64 string back to binary (ArrayBuffer)
+            const binaryString = atob(json.data);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer; // This is what Adobe expects
+        });
+};
+
 
 	
 	  document.addEventListener("adobe_dc_view_sdk.ready", function () {
