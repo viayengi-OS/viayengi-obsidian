@@ -25,7 +25,7 @@
 
       if (FILE_ID) {
         const getFilePromiseOld = (fileId) => {
-          const driveURL = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=AIzaSyBJWYfNc4iNg2rbnGzYzaUBY5HZzFtjdho`;
+          const driveURL = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=API_KEY`;
           return fetch(driveURL).then((response) => {
             if (!response.ok) throw new Error("Failed to fetch file");
             return response.arrayBuffer();
