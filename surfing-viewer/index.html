@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head>    <title>Code Viewer</title>    <!-- Prism.js for Syntax Highlighting -->    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />    <style>        body { background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', monospace; padding: 20px; }        #container { max-width: 90vw; margin: 0 auto; }        pre { border-radius: 8px; padding: 15px; overflow-x: auto; }    </style></head><body><div id="container">    <h5 id="noti"></h5>    <iframe id="surfing" src="https://example.com" style="width: 100%; min-height: 100vh;"></iframe>
+    </div><script>    // 2.1 Get parameters
+    const params = new URLSearchParams(window.location.search);
+    const fileId = params.get('id');
+    const siteUrl = params.get('url'); // New parameter for GitHub files
+    // 2.3 Set the class
+    const iframe = document.getElementById('surfing');
+    const title = document.getElementById('noti');
+    if (fileId) {
+
+    } else if (siteUrl) {
+        iframesetAttribute["src",siteUrl"];
+        title.textContent = siteUrl";
+    } else {
+        title.textContent = "Error when fetch website!";
+    }
+   </script></body></html>
