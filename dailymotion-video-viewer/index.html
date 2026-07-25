@@ -5,7 +5,7 @@
 </head>
 <div id="container">
   <h5 id="noti"></h5>
-  <script src="https://geo.dailymotion.com/player/x164r2.js" data-video="k2Z5cnd1AJ0fh8I6vzk"></script>
+  <script id="dailymotion" src="https://geo.dailymotion.com/player/x164r2.js" data-video="k2Z5cnd1AJ0fh8I6vzk"></script>
 </div>
 
 <script>
@@ -17,12 +17,10 @@
 
 
   if (videoId) {
-    let content = `https://geo.dailymotion.com/player/x164r2.html?video=${videoId}`
-    let src = `https://geo.dailymotion.com/player/x164r2.html?video=${videoId}`
-    video.setAttribute("src", siteUrl);
-    title.textContent = siteUrl;
+    video.setAttribute("data-video", videoId);
+    title.textContent = "";
   } else {
-    title.textContent = "No ID Founded. Play \"Testing Video\"";
+    title.textContent = "No ID Founded. Play \"Sample Video\"";
   }
 </script>
 </body>
