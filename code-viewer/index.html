@@ -24,11 +24,7 @@
 
     // 2.3 Set the class
     const codeBlock = document.getElementById('code-block');
-    if ( lang ){
-        codeBlock.className = `language-${getLanguage(lang)}`;
-    }else {
-        codeBlock.className = `language-${getLanguage(ext)}`;
-    }
+    codeBlock.className = `language-${getLanguage(ext)}`;
     
     
     if (fileId) {
