@@ -2,7 +2,8 @@
     const params = new URLSearchParams(window.location.search);
     const fileId = params.get('id');
     const githubUrl = params.get('url'); // New parameter for GitHub files
-    const ext = params.get('ext') || 'js'; // Default to js
+    const ext = params.get('ext') || 'md'; // Default to js
+
 
     // 2.2 Create a mapping function
     function getLanguage(extension) {
@@ -17,12 +18,19 @@
             'cpp': 'cpp',
             'c': 'c'
         };
-        return map[extension] || 'javascript'; // Fallback to javascript
+        const defaultLanguage = Object.values(map).includes(extension.toLowerCase()) ? extension : "markdown"
+        return map[extension] || defaultLanguage; // Fallback to markdown
     }
 
     // 2.3 Set the class
     const codeBlock = document.getElementById('code-block');
-    codeBlock.className = `language-${getLanguage(ext)}`;
+    if ( lang ){
+        codeBlock.className = `language-${getLanguage(lang)}`;
+    }else {
+        codeBlock.className = `language-${getLanguage(ext)}`;
+    }
+    
+    
     if (fileId) {
         // --- FETCH FROM GOOGLE DRIVE ---
         document.getElementById('title').innerText = "Loading from Drive...";
