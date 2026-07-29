@@ -54,7 +54,7 @@
 
     // Logic to handle rendering
     function renderContent(content) {
-        if (ext === 'md') {
+        if (ext === 'md' || ext === "markdown") {
             // RENDER MARKDOWN
             title.innerText = "Markdown Preview";
             markdownViewer.style.display = 'block';
