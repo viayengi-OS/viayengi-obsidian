@@ -66,8 +66,8 @@
             
             // Set language for Prism
             const langMap = { 'js': 'javascript', 'py': 'python', 'html': 'html', 'css': 'css', 'json': 'json', 'java': 'java', 'cpp': 'cpp', 'c': 'c' };
-            codeBlock.className = `language-${langMap[ext] || 'markup'}`;
-            Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+            codeBlock.className = `language-${langMap[ext] || ext}`;
+            Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/'; // Most IMPORTANT
 
             
             codeBlock.textContent = content;
